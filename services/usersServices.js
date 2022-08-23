@@ -1,8 +1,11 @@
 const { User } = require('../models/userSchema');
+const { v4: uuidv4 } = require('uuid');
+
 
 // Создает нового юзера в базе
 const createUser = async body => {
-  const user = await new User({ ...body });
+  const verificationToken = uuidv4();
+  const user = await new User({ ...body, verificationToken });
   user.setPassword(body.password);
   return user.save();
 };
