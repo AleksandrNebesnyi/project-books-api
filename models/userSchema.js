@@ -85,9 +85,22 @@ const joiSignUpSchema = Joi.object({
     .pattern(/^[^.-](?=.*[\w\d])([a-zA-Z0-9@$!_,%*\-.#?&]{5,30})$/),
 });
 
+// Схема валидации верификации юзера
+const joiSchemaResendVerifyUser = Joi.object({
+  email: Joi.string()
+    .email({
+      minDomainSegments: 2,
+      tlds: { allow: ['com', 'net', 'org', 'ua', 'ru', 'gov', 'ca'] },
+    })
+    .pattern(
+      /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i,
+    )
+    .required(),
+});
+
 const User = model('user', userSchema);
 
-module.exports = { User, joiSchema, joiSignUpSchema };
+module.exports = { User, joiSchema, joiSignUpSchema,joiSchemaResendVerifyUser };
 
 // GOOGLE_CLIENT_ID=609794465594-7vn9e4pi8k3iark4pfraj1tfh4tdav6o.apps.googleusercontent.com;
 // GOOGLE_CLIENT_SECRET=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;

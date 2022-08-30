@@ -21,6 +21,7 @@ const login = async ({ email, password }) => {
   await updateToken(id, token);
   return token;
 };
+
 // Выход юзера
 const logout = async id => {
   const data = await updateToken(id, null);

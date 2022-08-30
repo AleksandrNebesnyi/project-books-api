@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { joiSchema, joiSignUpSchema } = require('../../models/userSchema');
+const { joiSchema, joiSignUpSchema, joiSchemaResendVerifyUser } = require('../../models/userSchema');
 
 const validation = require('../../middlewares/validation');
 const {
@@ -8,6 +8,8 @@ const {
   loginUser,
   logoutUser,
   currentUser,
+  verifyUser,
+  resendVerifyUser
 } = require('../../controllers/auth');
 const { googleAuth, googleRedirect } = require('../../controllers/googleAuth');
 const tryCatchMiddleware = require('../../middlewares/tryCatch');
@@ -37,5 +39,7 @@ router.get('/current', auth, tryCatchMiddleware(currentUser)); // Роут дл�
 router.post('/logout', auth, tryCatchMiddleware(logoutUser)); // Роут для выхода
 router.get('/google', tryCatchMiddleware(googleAuth));
 router.get('/google-redirect', tryCatchMiddleware(googleRedirect));
+router.get('/verify/:verificationToken', tryCatchMiddleware(verifyUser)); // Верификация юзера
+router.post('/verify',validation(joiSchemaResendVerifyUser),tryCatchMiddleware(resendVerifyUser),); // Запрос повторной верификации юзера
 
 module.exports = router;
