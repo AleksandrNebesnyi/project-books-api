@@ -11,7 +11,7 @@ const createUser = async (body,baseUrl) => {
 
   sendVerificationEmail(body.email, baseUrl, verificationToken);
 
-  user.save()
+  user.save();
   return user;
 };
 // Находит юзера в базе по id

@@ -1,33 +1,25 @@
 const sgMail = require('@sendgrid/mail');
 // const nodemailer = require('nodemailer');
 
+
+
 const { SENDGRID_API_KEY} = process.env;
 
 sgMail.setApiKey(SENDGRID_API_KEY);
 
+
 const sendEmail = async msg => {
-  console.log(msg);
-  try {
+    try {
     const sendedMessage = await sgMail.send(msg);
     console.log('Mail send');
     return sendedMessage[0].statusCode;
-    // const email = { ...data, from: 'a.nebesnyi@gmail.com' };
-    // sgMail.send(email);
+   
     
   } catch (error) {
     throw new Error(error.message);
   }
 };
-// const retrySendEmail = (sendMailFunction, count = 2, interval = 20) => {
-//   setTimeout(async () => {
-//     const status = await sendMailFunction();
-//     if (!status && count - 1) {
-//       retrySendEmail(sendMailFunction, count - 1);
-//       return;
-//     }
-//     return status;
-//   }, interval * 1000);
-// };
+
 
 // Отправка письма через Gmail
 
@@ -42,11 +34,9 @@ const sendEmail = async msg => {
 // };
 // const transporter = nodemailer.createTransport(nodemailerConfig);
 
-// const sendEmail = async data => {
-//   const mail = { ...data, from: 'a.nebesnyi@gmail.com' };
-
-//   try {
-//     await transporter.sendMail(mail);
+// const sendEmail = async msg => {
+// //   try {
+//     await transporter.sendMail(msg);
 //   } catch (error) {
 //     throw new Error(`Smth wrong with email service: ${error.message}`);
 //   }
@@ -59,7 +49,7 @@ const getVerificationUrl = (baseRoutePath, verificationToken) =>
 const sendVerificationEmail = async (to, baseRoutePath, verificationToken) => {
   
   const verificationUrl = getVerificationUrl(baseRoutePath, verificationToken);
-  // console.log(verificationUrl);
+ 
   const msg = {
     to,
     from: process.env.SENDGRID_SENDER,
